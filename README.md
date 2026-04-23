@@ -26,4 +26,4 @@ Baseado nos conceitos do **Capítulo 3 (Raciocínio Nebuloso)**, o projeto imple
 ## 🚀 Como Executar
 1. Clone o repositório:
    ```bash
-   
+   https://ordinary-traveler.github.io/fuzzycaffee/fuzzycaffee/
