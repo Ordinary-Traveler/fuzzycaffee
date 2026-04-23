@@ -24,19 +24,56 @@ body { background-color: #1a1a1a; color: #fff; font-family: 'Inter', sans-serif;
 
 .badge {
     background: var(--accent);
-    padding: 2px 8px;
-    border-radius: 5px;
-    font-size: 0.8em;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 1.8rem; /* Grande para facilitar a leitura */
+    font-weight: bold;
+    color: white;
+    font-family: 'Courier New', Courier, monospace; /* Fonte estável */
+    min-width: 80px; /* Garante um tamanho fixo para o badge */
+    display: inline-block;
+    text-align: center;
+}
+
+/* Estilo para a caixa de explicação para ficar bem legível */
+.feedback-box {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 5px solid var(--accent);
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 0 10px 10px 0;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #f1f1f1;
+    min-height: 100px;
+    transition: all 0.3s ease;
 }
 
 #grao-cafe {
-    width: 120px;
-    height: 160px;
+    width: 110px;
+    height: 150px;
     background: var(--cafe-claro);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    margin: 40px auto;
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; 
+    margin: 30px auto;
     position: relative;
-    box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
+    box-shadow: 
+        inset -15px -15px 30px rgba(0,0,0,0.4), 
+        5px 15px 20px rgba(0,0,0,0.3);
+    transition: background-color 0.4s ease;
+}
+
+#grao-cafe::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 90%;
+    background: rgba(0, 0, 0, 0.25);
+    left: 50%;
+    top: 5%;
+    transform: translateX(-50%);
+    /* Curva em 'S' suave para parecer um grão real */
+    border-radius: 40% 60% 40% 60% / 50%;
+    box-shadow: inset 1px 0 2px rgba(255,255,255,0.1);
 }
 
 /* Animação de Vapor */
