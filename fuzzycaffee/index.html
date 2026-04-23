@@ -2,8 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuzzy Coffee</title>
+    <title>Fuzzy Coffee Lab</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -13,13 +12,13 @@
         <div class="main-layout">
             <div class="setup-panel">
                 <div class="input-group">
-                    <label>Corpo: <span id="valCorpo" class="badge">50</span></label>
+                    <label>Corpo: <span id="valCorpo" class="badge">050</span></label>
                     <input type="range" id="inputCorpo" min="0" max="100" value="50">
                     <canvas id="canvasCorpo" width="300" height="100"></canvas>
                 </div>
 
                 <div class="input-group">
-                    <label>Acidez: <span id="valAcidez" class="badge">50</span></label>
+                    <label>Acidez: <span id="valAcidez" class="badge">050</span></label>
                     <input type="range" id="inputAcidez" min="0" max="100" value="50">
                     <canvas id="canvasAcidez" width="300" height="100"></canvas>
                 </div>
@@ -28,31 +27,20 @@
             <div class="production-panel">
                 <div id="wrapper-grao">
                     <div id="grao-cafe"></div>
-                    <div class="vapor"><span></span><span></span><span></span></div>
                 </div>
-                
                 <div class="result-card">
                     <small>STATUS DA TORRA</small>
                     <h2 id="statusTorra">Média</h2>
-                    <div class="progress-bar-container">
-                        <div id="barraProgresso" class="progress-bar"></div>
-                    </div>
+                    <div id="feedback-explicao" class="feedback-box">Ajuste os parâmetros...</div>
                 </div>
             </div>
         </div>
 
-        <div id="raciocinio" class="logic-debug"></div>
-
-        <div class="result-card">
-            <small>ANÁLISE DO ESPECIALISTA</small>
-            <div id="feedback-explicao" class="feedback-box">
-                Ajuste os controles para iniciar a análise...
-            </div>
+        <div class="academic-note">
+            <h4>🎓 Nota Teórica (Lógica Fuzzy)</h4>
+            <p>Neste sistema, a <strong>Acidez</strong> atua como um compensador. Enquanto o Corpo tende a aumentar a intensidade da torra, a Acidez "puxa" o centro de gravidade da defuzzificação para valores menores, protegendo os óleos aromáticos do grão — um exemplo clássico de como a lógica nebulosa lida com variáveis contraditórias.</p>
         </div>
     </div>
-
     <script src="assets/js/script.js"></script>
-    <script src="assets/js/graphics.js"></script>
-    <script src="assets/js/explanation.js"></script>
 </body>
 </html>
