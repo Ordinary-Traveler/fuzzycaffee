@@ -8,35 +8,40 @@
 </head>
 <body>
     <div class="container">
-        <h1>☕ Experiencia Fuzzy Coffee</h1>
-        <p>Ajuste seu café usando lógica nebulosa</p>
+        <h1>☕ Fuzzy Coffee Lab</h1>
+        
+        <div class="main-layout">
+            <div class="setup-panel">
+                <div class="input-group">
+                    <label>Corpo: <span id="valCorpo" class="badge">50</span></label>
+                    <input type="range" id="inputCorpo" min="0" max="100" value="50">
+                    <canvas id="canvasCorpo" width="300" height="100"></canvas>
+                </div>
 
-        <div class="controls">
-            <div class="input-group">
-                <label>Corpo do Café (Leve a Encorpado)</label>
-                <input type="range" id="inputCorpo" min="0" max="100" value="50">
-                <span id="valCorpo">50</span>
+                <div class="input-group">
+                    <label>Acidez: <span id="valAcidez" class="badge">50</span></label>
+                    <input type="range" id="inputAcidez" min="0" max="100" value="50">
+                    <canvas id="canvasAcidez" width="300" height="100"></canvas>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label>Acidez (Baixa a Alta)</label>
-                <input type="range" id="inputAcidez" min="0" max="100" value="50">
-                <span id="valAcidez">50</span>
+            <div class="production-panel">
+                <div id="wrapper-grao">
+                    <div id="grao-cafe"></div>
+                    <div class="vapor"><span></span><span></span><span></span></div>
+                </div>
+                
+                <div class="result-card">
+                    <small>STATUS DA TORRA</small>
+                    <h2 id="statusTorra">Média</h2>
+                    <div class="progress-bar-container">
+                        <div id="barraProgresso" class="progress-bar"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="display-area">
-            <div id="grao-cafe"></div>
-            <div class="status">
-                <h3>Status da Torra: <span id="statusTorra">Média</span></h3>
-                <p id="raciocinio">Aguardando ajuste...</p>
-            </div>
-        </div>
-
-        <div class="visual-fuzzy">
-            <canvas id="canvasCorpo" width="400" height="150"></canvas>
-            <canvas id="canvasAcidez" width="400" height="150"></canvas>
-        </div>
+        <div id="raciocinio" class="logic-debug"></div>
     </div>
 
     <script src="assets/js/script.js"></script>

@@ -60,3 +60,4 @@ function atualizarSistema() {
 document.getElementById('inputCorpo').addEventListener('input', atualizarSistema);
 document.getElementById('inputAcidez').addEventListener('input', atualizarSistema);
 atualizarSistema();
+
