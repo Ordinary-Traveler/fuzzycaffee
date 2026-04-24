@@ -2,7 +2,8 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Fuzzy Coffee Lab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuzzy Coffee Lab | IA Experience</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -31,14 +32,35 @@
                 <div class="result-card">
                     <small>STATUS DA TORRA</small>
                     <h2 id="statusTorra">Média</h2>
-                    <div id="feedback-explicao" class="feedback-box">Ajuste os parâmetros...</div>
+                    <div id="feedback-explicao" class="feedback-box">Ajuste os parâmetros para simular...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="roast-guide">
+            <h3>📖 Guia de Perfis de Torra</h3>
+            <div class="guide-grid">
+                <div class="guide-item" onclick="setPreset(20, 85)">
+                    <div class="mini-bean light"></div>
+                    <strong>Cinnamon</strong>
+                    <p>Clara e Ácida</p>
+                </div>
+                <div class="guide-item" onclick="setPreset(55, 50)">
+                    <div class="mini-bean medium"></div>
+                    <strong>City</strong>
+                    <p>Equilibrada</p>
+                </div>
+                <div class="guide-item" onclick="setPreset(95, 10)">
+                    <div class="mini-bean dark"></div>
+                    <strong>French</strong>
+                    <p>Forte e Encorpada</p>
                 </div>
             </div>
         </div>
 
         <div class="academic-note">
             <h4>🎓 Nota Teórica (Lógica Fuzzy)</h4>
-            <p>Neste sistema, a <strong>Acidez</strong> atua como um compensador. Enquanto o Corpo tende a aumentar a intensidade da torra, a Acidez "puxa" o centro de gravidade da defuzzificação para valores menores, protegendo os óleos aromáticos do grão — um exemplo clássico de como a lógica nebulosa lida com variáveis contraditórias.</p>
+            <p>Neste sistema, a <strong>Acidez</strong> atua como um compensador. Enquanto o Corpo tende a aumentar a intensidade da torra, a Acidez "puxa" o centro de gravidade da defuzzificação para valores menores, protegendo os óleos aromáticos do grão — um exemplo clássico de como a lógica nebulosa lida com variáveis contraditórias de forma suave.</p>
         </div>
     </div>
     <script src="assets/js/script.js"></script>

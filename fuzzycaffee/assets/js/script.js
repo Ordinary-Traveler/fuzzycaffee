@@ -1,4 +1,4 @@
-// --- 1. FUNÇÕES MATEMÁTICAS DE PERTINÊNCIA (Baseadas na Aula) ---
+// --- 1. FUNÇÕES MATEMÁTICAS ---
 function triangular(x, a, b, c) {
     return Math.max(0, Math.min((x - a) / (b - a), (c - x) / (c - b)));
 }
@@ -7,20 +7,20 @@ function trapezoidal(x, a, b, c, d) {
     return Math.max(0, Math.min((x - a) / (b - a), 1, (d - x) / (d - c)));
 }
 
-// --- 2. CONFIGURAÇÃO DOS CONJUNTOS FUZZY (Pontos a, b, c, d) ---
+// --- 2. CONFIGURAÇÃO DOS CONJUNTOS ---
 const setsCorpo = [
-    { label: 'Leve', a: 0, b: 0, c: 20, d: 50, tipo: 'trap' },
-    { label: 'Médio', a: 20, b: 50, c: 50, d: 80, tipo: 'tri' },
-    { label: 'Forte', a: 50, b: 80, c: 100, d: 100, tipo: 'trap' }
+    { a: 0, b: 0, c: 20, d: 50 },   // Leve
+    { a: 20, b: 50, c: 50, d: 80 },  // Médio
+    { a: 50, b: 80, c: 100, d: 100 } // Forte
 ];
 
 const setsAcidez = [
-    { label: 'Baixa', a: 0, b: 0, c: 20, d: 50, tipo: 'trap' },
-    { label: 'Média', a: 20, b: 50, c: 50, d: 80, tipo: 'tri' },
-    { label: 'Alta', a: 50, b: 80, c: 100, d: 100, tipo: 'trap' }
+    { a: 0, b: 0, c: 20, d: 50 },   // Baixa
+    { a: 20, b: 50, c: 50, d: 80 },  // Média
+    { a: 50, b: 80, c: 100, d: 100 } // Alta
 ];
 
-// --- 3. FUNÇÃO DE DESENHO DO CANVAS ---
+// --- 3. DESENHO DOS GRÁFICOS (CANVAS) ---
 function drawFuzzySet(canvasId, value, sets) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
@@ -33,9 +33,7 @@ function drawFuzzySet(canvasId, value, sets) {
     sets.forEach((s, i) => {
         ctx.beginPath();
         ctx.lineWidth = 2;
-        ctx.strokeStyle = `hsl(${i * 130 + 20}, 60%, 70%)`;
-        
-        // Mapeamento: valor 0-100 para largura do canvas
+        ctx.strokeStyle = `hsl(${i * 130 + 30}, 60%, 65%)`;
         const scale = w / 100;
         ctx.moveTo(s.a * scale, h - 10);
         ctx.lineTo(s.b * scale, 10);
@@ -44,7 +42,7 @@ function drawFuzzySet(canvasId, value, sets) {
         ctx.stroke();
     });
 
-    // Linha do Valor Atual (Valor Crisp)
+    // Linha indicadora do valor atual
     ctx.beginPath();
     ctx.strokeStyle = '#e63946';
     ctx.lineWidth = 3;
@@ -53,72 +51,79 @@ function drawFuzzySet(canvasId, value, sets) {
     ctx.stroke();
 }
 
-// --- 4. MOTOR DE INFERÊNCIA E ATUALIZAÇÃO ---
+// --- 4. MOTOR DE INFERÊNCIA ---
 function atualizarSistema() {
-    // Pegar valores dos inputs
-    const corpoValor = parseInt(document.getElementById('inputCorpo').value);
-    const acidezValor = parseInt(document.getElementById('inputAcidez').value);
-
-    // Formatação 001, 010, 100 (Padding)
-    document.getElementById('valCorpo').innerText = corpoValor.toString().padStart(3, '0');
-    document.getElementById('valAcidez').innerText = acidezValor.toString().padStart(3, '0');
-
-    // FUZZIFICAÇÃO
-    let cLeve = trapezoidal(corpoValor, 0, 0, 20, 50);
-    let cMedio = triangular(corpoValor, 20, 50, 80);
-    let cForte = trapezoidal(corpoValor, 50, 80, 100, 100);
-
-    let aBaixa = trapezoidal(acidezValor, 0, 0, 20, 50);
-    let aMedia = triangular(acidezValor, 20, 50, 80);
-    let aAlta = trapezoidal(acidezValor, 50, 80, 100, 100);
-
-    // REGRAS FUZZY (Mamdani Simplificado)
-    // R1: SE corpo forte E acidez baixa -> Torra Escura
-    let r1 = Math.min(cForte, aBaixa);
-    // R2: SE corpo leve OU acidez alta -> Torra Clara
-    let r2 = Math.max(cLeve, aAlta);
-    // R3: SE corpo médio -> Torra Média
-    let r3 = cMedio;
-
-    // DEFUZZIFICAÇÃO (Centroide Simplificado / Média Ponderada)
-    // Centros: Clara=20, Média=50, Escura=80
-    let num = (r2 * 20) + (r3 * 50) + (r1 * 80);
-    let den = r2 + r3 + r1 + 0.000001;
-    let resultadoFinal = num / den;
-
-    // ATUALIZAÇÃO VISUAL
+    // Captura de Elementos
+    const inputCorpo = document.getElementById('inputCorpo');
+    const inputAcidez = document.getElementById('inputAcidez');
+    const valCorpo = document.getElementById('valCorpo');
+    const valAcidez = document.getElementById('valAcidez');
     const grao = document.getElementById('grao-cafe');
     const statusText = document.getElementById('statusTorra');
     const feedback = document.getElementById('feedback-explicao');
 
-    // Cor do grão: Escurece conforme resultadoFinal aumenta
-    let lightness = 80 - (resultadoFinal * 0.6); 
-    grao.style.backgroundColor = `hsl(25, 60%, ${lightness}%)`;
+    if (!inputCorpo || !inputAcidez) return;
 
-    // Texto de Status
-    if (resultadoFinal < 35) statusText.innerText = "Torra Suave (Clara)";
-    else if (resultadoFinal < 65) statusText.innerText = "Torra Equilibrada (Média)";
-    else statusText.innerText = "Torra Intensa (Escura)";
+    const corpo = parseInt(inputCorpo.value);
+    const acidez = parseInt(inputAcidez.value);
 
-    // Lógica de Explicação (Feedback do Barista)
-    if (corpoValor > 70 && acidezValor > 70) {
-        feedback.innerHTML = "⚠️ <strong>Conflito:</strong> Corpo alto pede torra longa, mas acidez alta pede torra curta. O sistema fuzzy encontrou um meio-termo para preservar ambos.";
-    } else if (corpoValor > 80 && acidezValor < 30) {
-        feedback.innerHTML = "🔥 <strong>Perfil Forte:</strong> Ideal para Espresso. A baixa acidez permite uma torra profunda sem amargor químico.";
-    } else if (acidezValor > 80) {
-        feedback.innerHTML = "🌿 <strong>Foco no Aroma:</strong> Muita acidez detectada. A torra foi suavizada para não esconder as notas frutadas do grão.";
+    // Padding de Zeros (001, 010, 100)
+    valCorpo.innerText = corpo.toString().padStart(3, '0');
+    valAcidez.innerText = acidez.toString().padStart(3, '0');
+
+    // FUZZIFICAÇÃO
+    let cLeve = trapezoidal(corpo, 0, 0, 20, 50);
+    let cMedio = triangular(corpo, 20, 50, 80);
+    let cForte = trapezoidal(corpo, 50, 80, 100, 100);
+
+    let aBaixa = trapezoidal(acidez, 0, 0, 20, 50);
+    let aAlta = trapezoidal(acidez, 50, 80, 100, 100);
+
+    // REGRAS (SE... ENTÃO)
+    let rForte = Math.min(cForte, aBaixa); 
+    let rClara = Math.max(cLeve, aAlta);   
+    let rMedia = cMedio;
+
+    // DEFUZZIFICAÇÃO (Média Ponderada)
+    let num = (rClara * 15) + (rMedia * 50) + (rForte * 85);
+    let den = rClara + rMedia + rForte + 0.0001;
+    let res = num / den;
+
+    // ATUALIZAÇÃO DO GRÃO E STATUS
+    // Cores: de bege claro (Cinnamon) a marrom escuro (French)
+    let lightness = 85 - (res * 0.65); 
+    let saturation = 30 + (res * 0.3);
+    grao.style.backgroundColor = `hsl(30, ${saturation}%, ${lightness}%)`;
+
+    if (res < 35) {
+        statusText.innerText = "Torra Leve (Cinnamon)";
+        statusText.style.color = "#d4a373";
+        feedback.innerHTML = "✨ <strong>Perfil Especialista:</strong> Torra clara que preserva a acidez e os aromas florais originais do grão.";
+    } else if (res < 65) {
+        statusText.innerText = "Torra Média (City)";
+        statusText.style.color = "#fff";
+        feedback.innerHTML = "⚖️ <strong>Equilíbrio:</strong> Ponto ideal onde o açúcar do café caramelizou perfeitamente.";
     } else {
-        feedback.innerHTML = "⚖️ <strong>Equilíbrio:</strong> Os parâmetros estão dentro de uma zona de conforto para uma torra comercial padrão.";
+        statusText.innerText = "Torra Forte (French)";
+        statusText.style.color = "#6f4e37";
+        feedback.innerHTML = "🔥 <strong>Intensidade:</strong> Torra profunda com corpo denso e notas de chocolate amargo.";
     }
 
     // Desenhar Gráficos
-    drawFuzzySet('canvasCorpo', corpoValor, setsCorpo);
-    drawFuzzySet('canvasAcidez', acidezValor, setsAcidez);
+    drawFuzzySet('canvasCorpo', corpo, setsCorpo);
+    drawFuzzySet('canvasAcidez', acidez, setsAcidez);
 }
 
-// --- 5. INICIALIZAÇÃO ---
-document.getElementById('inputCorpo').addEventListener('input', atualizarSistema);
-document.getElementById('inputAcidez').addEventListener('input', atualizarSistema);
+// --- 5. INTERATIVIDADE E INICIALIZAÇÃO ---
+function setPreset(c, a) {
+    document.getElementById('inputCorpo').value = c;
+    document.getElementById('inputAcidez').value = a;
+    atualizarSistema();
+}
 
-// Executa uma vez ao carregar para desenhar o estado inicial
-window.onload = atualizarSistema;
+// Garante que o código roda após o HTML carregar
+window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('inputCorpo').addEventListener('input', atualizarSistema);
+    document.getElementById('inputAcidez').addEventListener('input', atualizarSistema);
+    atualizarSistema(); // Primeira execução
+});
